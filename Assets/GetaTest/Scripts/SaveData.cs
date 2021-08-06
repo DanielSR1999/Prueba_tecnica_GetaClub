@@ -4,12 +4,20 @@ using UnityEngine;
 
 public class SaveData : MonoBehaviour
 {
-    public void SetGameWinsData(string DataID,int value)
+    public static string GameWinsData = "gameWins";
+    public static string GamesPlayedData= "gamesPlayed";
+    public static string GameRecordData = "gameRecord";
+
+    public void SetGameWinsData(int value)
     {
-        PlayerPrefs.SetInt(DataID, value);
+        PlayerPrefs.SetInt(GameWinsData, value);
     }
-    public void SetGamesPlayedData(string DataID, int value)
+    public void SetGamesPlayedData(int value)
     {
-        PlayerPrefs.SetInt(DataID, value);
+        PlayerPrefs.SetInt(GamesPlayedData, value);
+    }
+    public void SetGameRecorddData(int value)
+    {
+        PlayerPrefs.SetInt(GameRecordData, value);
     }
 }
