@@ -34,15 +34,8 @@ public class KartController : MonoBehaviour
     [Header("Speed")]
     public float speed;
     public float maxSpeed;
-    public Texture speedmeterArrowImage;
+    public Image speedmeterArrowImage;
     public float smoothArrow;
-
-    [Header("GUI Speedmeter Parameters")]
-    public float pivotXPosition;
-    public float pivotYPosition;
-    public float speedMeterGUIPositionX;
-    public float speedMeterGUIPositionY;
-    public float speedMeterGUIScale;
 
     [Header("Turbo")]
     [SerializeField]
@@ -53,13 +46,67 @@ public class KartController : MonoBehaviour
     [SerializeField]
     float speedIncrement;
     float velocityMultiplier = 1f;
+    [SerializeField]
+    ParticleSystem turboParticle;
+
+    [Header("Drift")]
+    [Range(0.5f,5f)]
+    public float _DriftDuration;
+    public bool _drifting = false;
+    public float _extremumSlip;
+    public float _extremumValue;
+    WheelFrictionCurve defaultWheelRearConfig;
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.centerOfMass = centerOfMassTransform;
         StartCoroutine(ShowSpeed());
+
+        defaultWheelRearConfig = wheels[3].wheelCollider.sidewaysFriction;
+        defaultWheelRearConfig.extremumSlip = wheels[3].wheelCollider.sidewaysFriction.extremumSlip;
+        defaultWheelRearConfig.extremumValue = wheels[3].wheelCollider.sidewaysFriction.extremumValue;
+
     }
 
+    public void Drift()
+    {
+        if(!_drifting)
+        {
+            _drifting = true;
+            foreach (wheel _wheels in wheels)
+            {
+                if (_wheels.axel == Axel.rear)
+                {
+                    WheelFrictionCurve sideWayFriction = _wheels.wheelCollider.sidewaysFriction;
+                    sideWayFriction.extremumSlip = _extremumSlip;
+                    sideWayFriction.extremumValue = _extremumValue;
+                    _wheels.wheelCollider.sidewaysFriction = sideWayFriction;
+                }
+            }
+            StartCoroutine(returnNoDrift());
+        }
+        else
+        {
+            return;
+        }
+        
+    }
+    IEnumerator returnNoDrift()
+    {
+        yield return new WaitForSeconds(_DriftDuration);
+        _drifting = false;
+
+        foreach (wheel _wheels in wheels)
+        {
+            if (_wheels.axel == Axel.rear)
+            {
+                WheelFrictionCurve sideWayFriction = _wheels.wheelCollider.sidewaysFriction;
+                sideWayFriction.extremumSlip = defaultWheelRearConfig.extremumSlip;
+                sideWayFriction.extremumValue = defaultWheelRearConfig.extremumValue;
+                _wheels.wheelCollider.sidewaysFriction = sideWayFriction;
+            }
+        }
+    }
     private void Update()
     {
         GetInputs();
@@ -68,6 +115,11 @@ public class KartController : MonoBehaviour
     {
         yInput = Input.GetAxis("Vertical");
         xInput = Input.GetAxis("Horizontal");
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            Drift();
+        }
     }
     private void LateUpdate()
     {
@@ -84,28 +136,25 @@ public class KartController : MonoBehaviour
     {
         turboEnable = true;
         velocityMultiplier = speedIncrement;
+        turboParticle.Play();
         yield return new WaitForSeconds(turboDuration);
         velocityMultiplier = 1;
         turboEnable = false;
+        turboParticle.Stop();
     }
     IEnumerator ShowSpeed()
     {
-        yield return new WaitForSeconds(smoothArrow);
-        
+        yield return new WaitForSeconds(smoothArrow);      
         float _speed =  Mathf.Abs((2 * Mathf.PI * wheels[0].wheelCollider.radius) * wheels[0].wheelCollider.rpm * 60 / 1000);
         speed = Mathf.Clamp(_speed, 0, maxSpeed);
-        StartCoroutine(ShowSpeed());
-    }
-    private void OnGUI()
-    {
         float speedMeterAngle = speed * 180 / maxSpeed;
         float speedmeterAngleCampled = Mathf.Clamp(speedMeterAngle, 0, 180);
-        GUIUtility.RotateAroundPivot(speedmeterAngleCampled, new Vector2(Screen.width - pivotXPosition, Screen.height - pivotYPosition));
-        GUI.DrawTexture(new Rect(Screen.width - speedMeterGUIPositionX, Screen.height - speedMeterGUIPositionY, speedMeterGUIScale, speedMeterGUIScale), speedmeterArrowImage);
+        speedmeterArrowImage.rectTransform.rotation =Quaternion.Euler(Vector3.forward * -speedmeterAngleCampled);
+        StartCoroutine(ShowSpeed());
     }
     private void Move()
     {
-        foreach(wheel _wheels in wheels)
+        foreach (wheel _wheels in wheels)
         {
             if(speed<maxSpeed)
             {

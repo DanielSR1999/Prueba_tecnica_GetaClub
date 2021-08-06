@@ -1,6 +1,6 @@
 # Prueba_tecnica_GetaClub
 
-Assets:
+ASSETS:
 
 - Background image from MainMenu designed by Panuwat Sikham. Available on: 
 https://www.vecteezy.com/vector-art/2082142-hologram-in-hud-ui-style-futuristic-car-service-scanning-and-auto-data-analysis-virtual-graphical-interface-vector-illusatration
@@ -13,10 +13,19 @@ https://www.freepik.com/lovephoto
 - Clock model byI avduevskij. Availale on: https://www.turbosquid.com/3d-models/free-ikea-wall-clock-3d-model/673956
 
 - Ray model by printable_models. Available on: https://free3d.com/es/modelo-3d/lightning-bolt-v1--149017.html
-Packages:
+
+
+PACKAGES:
 
 - 2D UI Buttons Free Package for unity developer by Javedkhanme. Available on:
 https://assetstore.unity.com/packages/2d/gui/2d-ui-buttons-free-package-for-unity-developer-by-javedkhanme-198453
 
 - Quick Outline by Chris Nolet. Available on: https://assetstore.unity.com/packages/tools/particles-effects/quick-outline-115488
- 
+
+- Standard Assets by Unity Technologies. Available on: 
+https://assetstore.unity.com/packages/essentials/asset-packs/standard-assets-for-unity-2018-4-32351?aid=1100l355n&gclid=Cj0KCQjwu7OIBhCsARIsALxCUaPSVgOvBWxV8LResg_V_bD13rNhEdJ5ng5sEEAVpYrX6gNEan-6hh4aAvIAEALw_wcB&pubref=UnityAssets%2ADynNew08%2A1723478829%2A67594162255%2A336277500151%2Ag%2A%2A%2Ab%2Ac%2Agclid%3DCj0KCQjwu7OIBhCsARIsALxCUaPSVgOvBWxV8LResg_V_bD13rNhEdJ5ng5sEEAVpYrX6gNEan-6hh4aAvIAEALw_wcB&utm_source=aff
+
+CONTROLS:
+
+- Movement: Arrows & 'W' 'A' 'S' 'D'
+- Drift: SpaceBar 
