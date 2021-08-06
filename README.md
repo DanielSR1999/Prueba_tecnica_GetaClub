@@ -12,8 +12,11 @@ https://www.freepik.com/lovephoto
 
 - Clock model byI avduevskij. Availale on: https://www.turbosquid.com/3d-models/free-ikea-wall-clock-3d-model/673956
 
+- Ray model by printable_models. Available on: https://free3d.com/es/modelo-3d/lightning-bolt-v1--149017.html
 Packages:
 
-- 2D UI Buttons Free Package for unity developer by Javedkhanme. Avaible on:
+- 2D UI Buttons Free Package for unity developer by Javedkhanme. Available on:
 https://assetstore.unity.com/packages/2d/gui/2d-ui-buttons-free-package-for-unity-developer-by-javedkhanme-198453
+
+- Quick Outline by Chris Nolet. Available on: https://assetstore.unity.com/packages/tools/particles-effects/quick-outline-115488
  

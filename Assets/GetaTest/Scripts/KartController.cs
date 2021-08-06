@@ -32,33 +32,37 @@ public class KartController : MonoBehaviour
     public float desAceleration = 80f;
     
     [Header("Speed")]
-    Vector3 initialArrowRotation;
     public float speed;
-    public RawImage speedmeterArrowImage;
-    public float rotationArrowMultiplier;
+    public float maxSpeed;
+    public Texture speedmeterArrowImage;
     public float smoothArrow;
 
+    [Header("GUI Speedmeter Parameters")]
+    public float pivotXPosition;
+    public float pivotYPosition;
+    public float speedMeterGUIPositionX;
+    public float speedMeterGUIPositionY;
+    public float speedMeterGUIScale;
+
     [Header("Turbo")]
-    public float turboDuration;
-    public bool turboEnable = false;
-    [Range(1, 2.5f)]
-    public float speedIncrement;
+    [SerializeField]
+    float turboDuration;
+    [SerializeField]
+    bool turboEnable = false;
+    [Range(1, 5f)]
+    [SerializeField]
+    float speedIncrement;
     float velocityMultiplier = 1f;
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.centerOfMass = centerOfMassTransform;
-        initialArrowRotation = speedmeterArrowImage.rectTransform.rotation.eulerAngles;
         StartCoroutine(ShowSpeed());
     }
 
     private void Update()
     {
         GetInputs();
-        if (Input.GetMouseButtonDown(0)) 
-        {
-            StartCoroutine(SetTurbo());
-        }
     }
     void GetInputs()
     {
@@ -72,7 +76,10 @@ public class KartController : MonoBehaviour
         AnimateWheels();
     }
     
-
+    public void EnableTurbo()
+    {
+        StartCoroutine(SetTurbo());
+    }
     IEnumerator SetTurbo()
     {
         turboEnable = true;
@@ -84,23 +91,31 @@ public class KartController : MonoBehaviour
     IEnumerator ShowSpeed()
     {
         yield return new WaitForSeconds(smoothArrow);
-        float promedioRPM = 0;
-
-        for(int i=0;i<wheels.Count;i++)
-        {
-            promedioRPM += wheels[i].wheelCollider.rpm;
-        }
-        promedioRPM = promedioRPM / wheels.Count;
-
-        speed = Mathf.Abs((2 * Mathf.PI * wheels[0].wheelCollider.radius) * promedioRPM * 60 / 1000);
-        speedmeterArrowImage.rectTransform.rotation = Quaternion.Euler(initialArrowRotation.x, initialArrowRotation.y, initialArrowRotation.z + (speed * rotationArrowMultiplier));
+        
+        float _speed =  Mathf.Abs((2 * Mathf.PI * wheels[0].wheelCollider.radius) * wheels[0].wheelCollider.rpm * 60 / 1000);
+        speed = Mathf.Clamp(_speed, 0, maxSpeed);
         StartCoroutine(ShowSpeed());
+    }
+    private void OnGUI()
+    {
+        float speedMeterAngle = speed * 180 / maxSpeed;
+        float speedmeterAngleCampled = Mathf.Clamp(speedMeterAngle, 0, 180);
+        GUIUtility.RotateAroundPivot(speedmeterAngleCampled, new Vector2(Screen.width - pivotXPosition, Screen.height - pivotYPosition));
+        GUI.DrawTexture(new Rect(Screen.width - speedMeterGUIPositionX, Screen.height - speedMeterGUIPositionY, speedMeterGUIScale, speedMeterGUIScale), speedmeterArrowImage);
     }
     private void Move()
     {
         foreach(wheel _wheels in wheels)
         {
-            _wheels.wheelCollider.motorTorque = yInput * maxAceleration *velocityMultiplier * 500 * Time.deltaTime;
+            if(speed<maxSpeed)
+            {
+                _wheels.wheelCollider.motorTorque = yInput * maxAceleration * velocityMultiplier * 500 * Time.deltaTime;
+            }
+            else
+            {
+                _wheels.wheelCollider.motorTorque = 0;
+            }
+
         }
         if(Input.GetAxis("Vertical")==0)
         {

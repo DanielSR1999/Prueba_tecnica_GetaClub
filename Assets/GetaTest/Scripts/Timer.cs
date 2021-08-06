@@ -5,9 +5,11 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-    public Text timerText;
-    public int secondsRemaining;
-    public int initialTime = 300;
+    [SerializeField]
+    Text timerText;
+    int secondsRemaining;
+    [SerializeField]
+    int initialTime = 300;
 
     private void Start()
     {
@@ -24,7 +26,7 @@ public class Timer : MonoBehaviour
             timerText.text = secondsRemaining.ToString();
         }
     }
-    void AddTime(int extraSeconds)
+    public void AddTime(int extraSeconds)
     {
         secondsRemaining += extraSeconds;
         timerText.text = secondsRemaining.ToString();
