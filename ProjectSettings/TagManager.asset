@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Clock
   - Ray
+  - Checkpoint
+  - Oil
+  - Jump
+  - randomPowerUp
   layers:
   - Default
   - TransparentFX

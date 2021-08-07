@@ -7,10 +7,18 @@ public class Timer : MonoBehaviour
 {
     [SerializeField]
     Text timerText;
-    int secondsRemaining;
+    public int secondsRemaining;
     [SerializeField]
     int initialTime = 300;
-
+    [SerializeField]
+    Canvas gameCanvas;
+    [SerializeField]
+    Canvas resultUI;
+    public Text resultText;
+    [SerializeField]
+    string winText;
+    [SerializeField]
+    string lossText;
     private void Start()
     {
         secondsRemaining = initialTime;
@@ -25,6 +33,22 @@ public class Timer : MonoBehaviour
             secondsRemaining--;
             timerText.text = secondsRemaining.ToString();
         }
+        gameCanvas.enabled = false;
+        resultUI.enabled = true;
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        player.GetComponent<KartController>().DisableMovement();
+        player.GetComponent<KartController>().SetGameData(false, 0);
+        resultText.text = lossText;
+    }
+
+    public void Win()
+    {
+        gameCanvas.enabled = false;
+        resultUI.enabled = true;
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        player.GetComponent<KartController>().DisableMovement();
+        player.GetComponent<KartController>().SetGameData(true, secondsRemaining);
+        resultText.text = winText;
     }
     public void AddTime(int extraSeconds)
     {

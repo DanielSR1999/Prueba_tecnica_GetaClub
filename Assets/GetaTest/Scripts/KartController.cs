@@ -56,6 +56,19 @@ public class KartController : MonoBehaviour
     public float _extremumSlip;
     public float _extremumValue;
     WheelFrictionCurve defaultWheelRearConfig;
+
+    [Header("NoControlParameters")]
+    [SerializeField]
+    float noControlTime;
+    public bool _wheelOil = false;
+    public float extremumSlip;
+    public float extremumValue;
+    public float rotatorKarValue;
+
+    [Header("KarJump")]
+    public float jumpForce;
+    public bool canJump = false;
+
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -65,9 +78,53 @@ public class KartController : MonoBehaviour
         defaultWheelRearConfig = wheels[3].wheelCollider.sidewaysFriction;
         defaultWheelRearConfig.extremumSlip = wheels[3].wheelCollider.sidewaysFriction.extremumSlip;
         defaultWheelRearConfig.extremumValue = wheels[3].wheelCollider.sidewaysFriction.extremumValue;
-
     }
 
+    public void Jump()
+    {
+        if (canJump)
+        {
+            _rigidbody.AddForce(Vector3.up * jumpForce*_rigidbody.mass);
+            canJump = false;
+        }
+        else
+            return;
+    }
+    public void NoKarControl()
+    {
+        if(!_wheelOil)
+        {
+            _wheelOil = true;
+            transform.Rotate(Vector3.down * Mathf.SmoothStep(transform.rotation.y, rotatorKarValue,0.5f));
+            foreach (wheel _wheels in wheels)
+            {
+                if (_wheels.axel == Axel.rear)
+                {
+                    WheelFrictionCurve sideWayFriction = _wheels.wheelCollider.sidewaysFriction;
+                    sideWayFriction.extremumSlip = extremumSlip;
+                    sideWayFriction.extremumValue = extremumValue;
+                    _wheels.wheelCollider.sidewaysFriction = sideWayFriction;
+                }
+            }
+            StartCoroutine(returnKarControl());
+        }
+    }
+    IEnumerator returnKarControl()
+    {
+        yield return new WaitForSeconds(noControlTime);
+        _wheelOil = false;
+
+        foreach (wheel _wheels in wheels)
+        {
+            if (_wheels.axel == Axel.rear)
+            {
+                WheelFrictionCurve sideWayFriction = _wheels.wheelCollider.sidewaysFriction;
+                sideWayFriction.extremumSlip = defaultWheelRearConfig.extremumSlip;
+                sideWayFriction.extremumValue = defaultWheelRearConfig.extremumValue;
+                _wheels.wheelCollider.sidewaysFriction = sideWayFriction;
+            }
+        }
+    }
     public void Drift()
     {
         if(!_drifting)
@@ -86,10 +143,15 @@ public class KartController : MonoBehaviour
             StartCoroutine(returnNoDrift());
         }
         else
+            return;     
+    }
+    public void DisableMovement()
+    {
+        foreach(wheel _wheels in wheels)
         {
-            return;
+            _wheels.wheelCollider.brakeTorque = desAceleration;
         }
-        
+        enabled = false;
     }
     IEnumerator returnNoDrift()
     {
@@ -120,6 +182,10 @@ public class KartController : MonoBehaviour
         {
             Drift();
         }
+        if(Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            Jump();
+        }
     }
     private void LateUpdate()
     {
@@ -128,6 +194,21 @@ public class KartController : MonoBehaviour
         AnimateWheels();
     }
     
+    public void SetGameData(bool Won,int secondsRemaining)
+    {
+        int gamesPlayed = PlayerPrefs.GetInt(SaveData.GamesPlayedDataID);
+        PlayerPrefs.SetInt(SaveData.GamesPlayedDataID, gamesPlayed+=1);
+
+        if(Won)
+        {
+            int gameWins = PlayerPrefs.GetInt(SaveData.GameWinsDataID);
+            PlayerPrefs.SetInt(SaveData.GameWinsDataID, gameWins += 1);
+        }
+        if(secondsRemaining>PlayerPrefs.GetInt(SaveData.GameRecordDataID))
+        {
+            PlayerPrefs.SetInt(SaveData.GameRecordDataID, secondsRemaining);
+        }
+    }
     public void EnableTurbo()
     {
         StartCoroutine(SetTurbo());
@@ -198,7 +279,6 @@ public class KartController : MonoBehaviour
             }       
         }
     }
-
     void AnimateWheels()
     {
         foreach(wheel _wheels in wheels)

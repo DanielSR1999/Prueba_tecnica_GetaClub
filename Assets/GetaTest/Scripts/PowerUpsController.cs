@@ -8,7 +8,12 @@ public class PowerUpsController : MonoBehaviour
 
     private void Start()
     {
+        RandomInstantiate();
+    }
+    public void RandomInstantiate()
+    {
         int numRandom = Random.Range(0, powerUpsPrefabs.Length);
-        Instantiate(powerUpsPrefabs[numRandom], transform.position, transform.rotation);
+        GameObject newPowerUp = Instantiate(powerUpsPrefabs[numRandom], transform.position, transform.rotation);
+        newPowerUp.transform.SetParent(gameObject.transform);    
     }
 }
