@@ -20,10 +20,16 @@ public struct wheel
 [RequireComponent(typeof(Rigidbody))]
 public class KartController : MonoBehaviour
 {
-    public float yInput, xInput;
+    float yInput, xInput;
     public List<wheel> wheels;
     Rigidbody _rigidbody;
-    public Vector3 centerOfMassTransform;
+    [SerializeField]
+    Vector3 centerOfMassTransform;
+
+    [Header("Sounds")]
+    [SerializeField]
+    SoundsController soundsController;
+    public float newPitchValue;
 
     [Header("KarMovement")]
     public float maxAceleration = 20.0f;
@@ -78,8 +84,18 @@ public class KartController : MonoBehaviour
         defaultWheelRearConfig = wheels[3].wheelCollider.sidewaysFriction;
         defaultWheelRearConfig.extremumSlip = wheels[3].wheelCollider.sidewaysFriction.extremumSlip;
         defaultWheelRearConfig.extremumValue = wheels[3].wheelCollider.sidewaysFriction.extremumValue;
+
+        StartCoroutine(ControlMotorCarSound());
     }
 
+    IEnumerator ControlMotorCarSound()
+    {
+        yield return new WaitForSeconds(0.25f);
+        float pitchAdd = speed / (maxSpeed*2); //con ete cálculo haremos que lo maximo que pueda aumentar el pitch al llegar a velocidad máxima sea 1
+        float newPitch = Mathf.Clamp(pitchAdd, 0f, 0.5f);
+        soundsController.ControlCarMotor(newPitch +soundsController.neutralPitch);
+        StartCoroutine(ControlMotorCarSound());
+    }
     public void Jump()
     {
         if (canJump)

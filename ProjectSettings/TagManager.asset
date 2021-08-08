@@ -10,6 +10,7 @@ TagManager:
   - Oil
   - Jump
   - randomPowerUp
+  - SoundsController
   layers:
   - Default
   - TransparentFX
