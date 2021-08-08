@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efdbb653016920e4a8a51bce10e2ce32, type: 3}
+  m_Name: Kart
+  m_EditorClassIdentifier: 
+  currentPlayerColorSelected: 0
+  currentFrontWheelColorSelected: 0
+  currentRearWheelColorSelected: 1
+  currentCarColorSelected: 3
+  playerMaterial: {fileID: 2100000, guid: ebcb5a8dc005ea64898b09733cd7ac84, type: 2}
+  wheelsFrontMaterial: {fileID: 2100000, guid: ebcb5a8dc005ea64898b09733cd7ac84, type: 2}
+  wheelsRearMaterial: {fileID: 2100000, guid: 78a2ecaa2b66d91458415ece9802f53e, type: 2}
+  carMaterial: {fileID: 2100000, guid: f3731fe9cd684744ca951ab1616aa12a, type: 2}
+  playerColorImage: {fileID: 21300000, guid: e5497d34360cd1a41bbef2d1b46022e0, type: 3}
+  wheelFrontImage: {fileID: 21300000, guid: 3e724b2e101ca18408fbadff348a8d0c, type: 3}
+  wheelRearImage: {fileID: 21300000, guid: 63487ecef0ebfa4429621b89ad3652a0, type: 3}
+  carImage: {fileID: 21300000, guid: 90eaf8f3d407b994e8944ecb8fdf8733, type: 3}

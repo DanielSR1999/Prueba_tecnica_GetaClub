@@ -89,5 +89,6 @@ public class ShowMechanimObjects : MonoBehaviour
         sceneView.AlignViewToObject(_object.transform);
         sceneView.Repaint();
         Selection.SetActiveObjectWithContext(_object, null);
+        
     }
 }
