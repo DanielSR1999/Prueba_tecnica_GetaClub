@@ -87,7 +87,6 @@ public class KartController : MonoBehaviour
 
         StartCoroutine(ControlMotorCarSound());
     }
-
     IEnumerator ControlMotorCarSound()
     {
         yield return new WaitForSeconds(0.25f);
@@ -112,6 +111,8 @@ public class KartController : MonoBehaviour
         {
             _wheelOil = true;
             transform.Rotate(Vector3.down * Mathf.SmoothStep(transform.rotation.y, rotatorKarValue,0.5f));
+            soundsController.Drifting.Play();
+
             foreach (wheel _wheels in wheels)
             {
                 if (_wheels.axel == Axel.rear)
@@ -129,6 +130,7 @@ public class KartController : MonoBehaviour
     {
         yield return new WaitForSeconds(noControlTime);
         _wheelOil = false;
+        soundsController.Drifting.Stop();
 
         foreach (wheel _wheels in wheels)
         {
@@ -154,6 +156,7 @@ public class KartController : MonoBehaviour
                     sideWayFriction.extremumSlip = _extremumSlip;
                     sideWayFriction.extremumValue = _extremumValue;
                     _wheels.wheelCollider.sidewaysFriction = sideWayFriction;
+                    soundsController.Drifting.Play();
                 }
             }
             StartCoroutine(returnNoDrift());
@@ -173,6 +176,7 @@ public class KartController : MonoBehaviour
     {
         yield return new WaitForSeconds(_DriftDuration);
         _drifting = false;
+        soundsController.Drifting.Stop();
 
         foreach (wheel _wheels in wheels)
         {

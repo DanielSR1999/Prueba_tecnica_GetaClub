@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class Timer : MonoBehaviour
 {
     [SerializeField]
+    SoundsController soundsController;
+    [SerializeField]
     Text timerText;
     public int secondsRemaining;
     [SerializeField]
@@ -39,6 +41,7 @@ public class Timer : MonoBehaviour
         player.GetComponent<KartController>().DisableMovement();
         player.GetComponent<KartController>().SetGameData(false, 0);
         resultText.text = lossText;
+        soundsController.PlayLoss();
     }
 
     public void Win()
@@ -49,6 +52,7 @@ public class Timer : MonoBehaviour
         player.GetComponent<KartController>().DisableMovement();
         player.GetComponent<KartController>().SetGameData(true, secondsRemaining);
         resultText.text = winText;
+        soundsController.PlayWin();
     }
     public void AddTime(int extraSeconds)
     {

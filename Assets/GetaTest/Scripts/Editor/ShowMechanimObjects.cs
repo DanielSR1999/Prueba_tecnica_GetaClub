@@ -14,6 +14,8 @@ public class ShowMechanimObjects : MonoBehaviour
         sceneView.AlignViewToObject(_object.transform);
         sceneView.Repaint();
         Selection.SetActiveObjectWithContext(_object, null);
+        GameObject camera = GameObject.Find("CameraFollower");
+        camera.transform.position = _object.transform.position;
     }
 
     [MenuItem("GetaTest/Show Instantiate PowerUp 2")]
@@ -24,6 +26,8 @@ public class ShowMechanimObjects : MonoBehaviour
         sceneView.AlignViewToObject(_object.transform);
         sceneView.Repaint();
         Selection.SetActiveObjectWithContext(_object, null);
+        GameObject camera = GameObject.Find("CameraFollower");
+        camera.transform.position = _object.transform.position;
     }
 
     [MenuItem("GetaTest/Show Instantiate PowerUp 3")]
@@ -34,6 +38,8 @@ public class ShowMechanimObjects : MonoBehaviour
         sceneView.AlignViewToObject(_object.transform);
         sceneView.Repaint();
         Selection.SetActiveObjectWithContext(_object, null);
+        GameObject camera = GameObject.Find("CameraFollower");
+        camera.transform.position = _object.transform.position;
     }
     [MenuItem("GetaTest/Show Instantiate PowerUp 4")]
     static void ShowRandomInstantiatePowerUp04()
@@ -43,6 +49,8 @@ public class ShowMechanimObjects : MonoBehaviour
         sceneView.AlignViewToObject(_object.transform);
         sceneView.Repaint();
         Selection.SetActiveObjectWithContext(_object, null);
+        GameObject camera = GameObject.Find("CameraFollower");
+        camera.transform.position = _object.transform.position;
     }
 
     [MenuItem("GetaTest/Show Oil Obstacle 1")]
@@ -53,6 +61,8 @@ public class ShowMechanimObjects : MonoBehaviour
         sceneView.AlignViewToObject(_object.transform);
         sceneView.Repaint();
         Selection.SetActiveObjectWithContext(_object, null);
+        GameObject camera = GameObject.Find("CameraFollower");
+        camera.transform.position = _object.transform.position;
     }
     [MenuItem("GetaTest/Show Oil Obstacle 2")]
     static void ShowOilObstacle02()
@@ -62,6 +72,8 @@ public class ShowMechanimObjects : MonoBehaviour
         sceneView.AlignViewToObject(_object.transform);
         sceneView.Repaint();
         Selection.SetActiveObjectWithContext(_object, null);
+        GameObject camera = GameObject.Find("CameraFollower");
+        camera.transform.position = _object.transform.position;
     }
     [MenuItem("GetaTest/Show Jump PowerUp 1")]
     static void ShowJumpPowerUp01()
@@ -71,6 +83,8 @@ public class ShowMechanimObjects : MonoBehaviour
         sceneView.AlignViewToObject(_object.transform);
         sceneView.Repaint();
         Selection.SetActiveObjectWithContext(_object, null);
+        GameObject camera = GameObject.Find("CameraFollower");
+        camera.transform.position = _object.transform.position;
     }
     [MenuItem("GetaTest/Show Jump PowerUp 2")]
     static void ShowJumpPowerUp02()
@@ -80,6 +94,8 @@ public class ShowMechanimObjects : MonoBehaviour
         sceneView.AlignViewToObject(_object.transform);
         sceneView.Repaint();
         Selection.SetActiveObjectWithContext(_object, null);
+        GameObject camera = GameObject.Find("CameraFollower");
+        camera.transform.position = _object.transform.position;
     }
     [MenuItem("GetaTest/Show Jump PowerUp 3")]
     static void ShowJumpPowerUp03()
@@ -89,6 +105,8 @@ public class ShowMechanimObjects : MonoBehaviour
         sceneView.AlignViewToObject(_object.transform);
         sceneView.Repaint();
         Selection.SetActiveObjectWithContext(_object, null);
-        
+        GameObject camera = GameObject.Find("CameraFollower");
+        camera.transform.position = _object.transform.position;
+
     }
 }
