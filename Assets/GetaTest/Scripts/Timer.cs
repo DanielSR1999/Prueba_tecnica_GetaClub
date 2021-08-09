@@ -5,26 +5,21 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-    [SerializeField]
-    SoundsController soundsController;
-    [SerializeField]
-    Text timerText;
-    public int secondsRemaining;
-    [SerializeField]
-    int initialTime = 300;
-    [SerializeField]
-    Canvas gameCanvas;
-    [SerializeField]
-    Canvas resultUI;
-    public Text resultText;
-    [SerializeField]
-    string winText;
-    [SerializeField]
-    string lossText;
+    [SerializeField]SoundsController soundsController;
+    [SerializeField]Text timerText;
+    [SerializeField] public int secondsRemaining;
+    [SerializeField] int initialTime = 300;
+    [SerializeField] Canvas gameCanvas;
+    [SerializeField] Canvas resultUI;
+    [SerializeField] public Text resultText;
+    [SerializeField] string winText;
+    [SerializeField] string lossText;
+    [SerializeField] Slider timeSlider;
     private void Start()
     {
         secondsRemaining = initialTime;
         StartCoroutine(_Timer());
+        timeSlider.maxValue = initialTime;
     }
 
     IEnumerator _Timer()
@@ -33,7 +28,8 @@ public class Timer : MonoBehaviour
         {
             yield return new WaitForSeconds(1f);
             secondsRemaining--;
-            timerText.text = secondsRemaining.ToString();
+            timerText.text = secondsRemaining.ToString() +" seg";
+            timeSlider.value = initialTime- secondsRemaining;
         }
         gameCanvas.enabled = false;
         resultUI.enabled = true;
@@ -42,6 +38,7 @@ public class Timer : MonoBehaviour
         player.GetComponent<KartController>().SetGameData(false, 0);
         resultText.text = lossText;
         soundsController.PlayLoss();
+        Time.timeScale = 0;
     }
 
     public void Win()

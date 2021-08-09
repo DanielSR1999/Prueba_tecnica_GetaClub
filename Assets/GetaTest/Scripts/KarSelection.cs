@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using UnityEngine.Events;
+using UnityEditor;
+using UnityEngine.SceneManagement;
 
 public class KarSelection : MonoBehaviour
 {
@@ -27,15 +29,28 @@ public class KarSelection : MonoBehaviour
     int currentRearWheelSelection = 0;
     int currentCarColorSelection = 0;
 
-    public Kart kar;
-
+    Kart kar;
+    public int indexScene;
+    Scene myScene;
     private void Start()
     {
+        
+        kar = Resources.Load<Kart>("Kart");
+        if(kar==null)
+        {
+            kar = AssetDatabase.LoadAssetAtPath<Kart>("Assets/Resources/Kart.asset");
+        }
+        myScene = SceneManager.GetActiveScene();
         LoadInfo();
     }
     
     public void ReloadKarCustom()
     {
+        kar = Resources.Load<Kart>("Kart");
+        if (kar == null)
+        {
+            kar = AssetDatabase.LoadAssetAtPath<Kart>("Assets/Resources/Kart.asset");
+        }
         kar.currentPlayerColorSelected = 0;
         kar.currentFrontWheelColorSelected = 0;
         kar.currentRearWheelColorSelected = 0;
@@ -51,6 +66,7 @@ public class KarSelection : MonoBehaviour
         kar.wheelRearImage = wheelRearSelector[0];
         kar.carImage = carSelector[0];
     }
+
     
     void LoadInfo()
     {
@@ -59,10 +75,14 @@ public class KarSelection : MonoBehaviour
         currentRearWheelSelection = kar.currentRearWheelColorSelected;
         currentCarColorSelection = kar.currentCarColorSelected;
 
-        playerAvatarImage.sprite = kar.playerColorImage;
-        wheelsFrontImage.sprite = kar.wheelFrontImage;
-        wheelsRearImage.sprite = kar.wheelRearImage;
-        carImage.sprite = kar.carImage;
+        if(myScene.name==("MainMenu"))
+        {
+            playerAvatarImage.sprite = kar.playerColorImage;
+            wheelsFrontImage.sprite = kar.wheelFrontImage;
+            wheelsRearImage.sprite = kar.wheelRearImage;
+            carImage.sprite = kar.carImage;
+        }
+        
     }
     void SetPlayerColor()
     {

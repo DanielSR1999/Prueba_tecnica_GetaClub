@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEditor;
 
 public class LoadCharacter : MonoBehaviour
 {
-    public Kart kartCustom;
+    Kart kartCustom;
     [Header("MeshRenderers")]
     public SkinnedMeshRenderer characterRenderer;
     public MeshRenderer[] frontWheelsRenderer;
@@ -13,6 +14,7 @@ public class LoadCharacter : MonoBehaviour
     public SkinnedMeshRenderer carRenderer;
     private void Start()
     {
+        kartCustom = Resources.Load<Kart>("Kart");
         characterRenderer.material = kartCustom.playerMaterial;
         carRenderer.material = kartCustom.carMaterial;
 
@@ -24,7 +26,6 @@ public class LoadCharacter : MonoBehaviour
         {
             rearWheels.material = kartCustom.wheelsRearMaterial;
         }
-
 
     }
 }

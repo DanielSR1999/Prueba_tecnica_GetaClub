@@ -17,17 +17,30 @@ public struct wheel
     public Axel axel;
 }
 
+
 [RequireComponent(typeof(Rigidbody))]
 public class KartController : MonoBehaviour
 {
+    public enum gameMode { racing, trails}
+    public gameMode mode;
+
+    [Header("Rails Controller")]
+    public bool keyHit = false;
+    public float currentLerpTime = 0;
+    public float lerpTime = 1f;
+    public enum rail { left,center,right}
+    public rail currentRail;
+    public Transform centerRail;
+    public Transform leftRail;
+    public Transform rightRail;
+
+
     float yInput, xInput;
     public List<wheel> wheels;
-    Rigidbody _rigidbody;
-    [SerializeField]
-    Vector3 centerOfMassTransform;
+    Rigidbody _rigidbody;  [SerializeField]
+    Vector3 centerOfMassTransform; 
 
-    [Header("Sounds")]
-    [SerializeField]
+    [Header("Sounds")] [SerializeField]
     SoundsController soundsController;
     public float newPitchValue;
 
@@ -43,16 +56,12 @@ public class KartController : MonoBehaviour
     public Image speedmeterArrowImage;
     public float smoothArrow;
 
-    [Header("Turbo")]
-    [SerializeField]
-    float turboDuration;
-    [SerializeField]
+    [Header("Turbo")][SerializeField]
+    float turboDuration;[SerializeField]
     bool turboEnable = false;
-    [Range(1, 5f)]
-    [SerializeField]
+    [Range(1, 5f)][SerializeField]
     float speedIncrement;
-    float velocityMultiplier = 1f;
-    [SerializeField]
+    float velocityMultiplier = 1f;[SerializeField]
     ParticleSystem turboParticle;
 
     [Header("Drift")]
@@ -63,8 +72,7 @@ public class KartController : MonoBehaviour
     public float _extremumValue;
     WheelFrictionCurve defaultWheelRearConfig;
 
-    [Header("NoControlParameters")]
-    [SerializeField]
+    [Header("NoControlParameters")][SerializeField]
     float noControlTime;
     public bool _wheelOil = false;
     public float extremumSlip;
@@ -77,6 +85,7 @@ public class KartController : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 1;
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.centerOfMass = centerOfMassTransform;
         StartCoroutine(ShowSpeed());
@@ -86,6 +95,7 @@ public class KartController : MonoBehaviour
         defaultWheelRearConfig.extremumValue = wheels[3].wheelCollider.sidewaysFriction.extremumValue;
 
         StartCoroutine(ControlMotorCarSound());
+        
     }
     IEnumerator ControlMotorCarSound()
     {
@@ -97,13 +107,25 @@ public class KartController : MonoBehaviour
     }
     public void Jump()
     {
-        if (canJump)
+        if(mode==gameMode.racing)
         {
-            _rigidbody.AddForce(Vector3.up * jumpForce*_rigidbody.mass);
-            canJump = false;
+            if (canJump)
+            {
+                _rigidbody.AddForce(Vector3.up * jumpForce * _rigidbody.mass);
+                canJump = false;
+            }
+            else
+                return;
         }
-        else
-            return;
+        else //si estamos jugando por movimiento por carriles
+        {
+            if(canJump)
+            {
+                _rigidbody.AddForce(Vector3.up * jumpForce * _rigidbody.mass);
+                canJump = false;
+            }
+           
+        }
     }
     public void NoKarControl()
     {
@@ -145,24 +167,27 @@ public class KartController : MonoBehaviour
     }
     public void Drift()
     {
-        if(!_drifting)
+        if(mode==gameMode.racing)
         {
-            _drifting = true;
-            foreach (wheel _wheels in wheels)
+            if (!_drifting)
             {
-                if (_wheels.axel == Axel.rear)
+                _drifting = true;
+                foreach (wheel _wheels in wheels)
                 {
-                    WheelFrictionCurve sideWayFriction = _wheels.wheelCollider.sidewaysFriction;
-                    sideWayFriction.extremumSlip = _extremumSlip;
-                    sideWayFriction.extremumValue = _extremumValue;
-                    _wheels.wheelCollider.sidewaysFriction = sideWayFriction;
-                    soundsController.Drifting.Play();
+                    if (_wheels.axel == Axel.rear)
+                    {
+                        WheelFrictionCurve sideWayFriction = _wheels.wheelCollider.sidewaysFriction;
+                        sideWayFriction.extremumSlip = _extremumSlip;
+                        sideWayFriction.extremumValue = _extremumValue;
+                        _wheels.wheelCollider.sidewaysFriction = sideWayFriction;
+                        soundsController.Drifting.Play();
+                    }
                 }
+                StartCoroutine(returnNoDrift());
             }
-            StartCoroutine(returnNoDrift());
-        }
-        else
-            return;     
+            else
+                return;
+        }       
     }
     public void DisableMovement()
     {
@@ -210,10 +235,72 @@ public class KartController : MonoBehaviour
     private void LateUpdate()
     {
         Move();
-        Turn();
+
+        if(mode==gameMode.racing)
+        {
+            Turn();
+        }
+        else
+        {
+            MoveThroughRails();
+        }
         AnimateWheels();
     }
     
+    void MoveThroughRails()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) 
+        {
+            switch(currentRail)
+            {
+                case rail.center:
+                    {
+                        StartCoroutine(moveToRail(leftRail,rail.left));
+                        break;
+                    }
+                case rail.right:
+                    {
+                        StartCoroutine(moveToRail(centerRail, rail.center));
+                        break;
+                    }
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+        {
+            switch (currentRail)
+            {
+                case rail.center:
+                    {
+                        StartCoroutine(moveToRail(rightRail, rail.right));
+                        break;
+                    }
+                case rail.left:
+                    {
+                        StartCoroutine(moveToRail(centerRail, rail.center));
+                        break;
+                    }
+            }
+        }
+    }
+    IEnumerator moveToRail(Transform target, rail _rail)
+    {
+        bool keyHit = true; 
+
+        while(keyHit)
+        {
+            currentLerpTime += Time.deltaTime;
+            if(currentLerpTime>=lerpTime)
+            {
+                keyHit = false;
+                currentLerpTime = 0;
+                currentRail = _rail;
+            }
+            float smooth = currentLerpTime / lerpTime;
+            transform.position = Vector3.Lerp(transform.position, new Vector3(target.position.x,transform.position.y,transform.position.z), smooth);
+            transform.rotation = Quaternion.Lerp(transform.rotation, target.rotation, smooth);
+            yield return null;
+        }
+    }
     public void SetGameData(bool Won,int secondsRemaining)
     {
         int gamesPlayed = PlayerPrefs.GetInt(SaveData.GamesPlayedDataID);
@@ -250,7 +337,12 @@ public class KartController : MonoBehaviour
         speed = Mathf.Clamp(_speed, 0, maxSpeed);
         float speedMeterAngle = speed * 180 / maxSpeed;
         float speedmeterAngleCampled = Mathf.Clamp(speedMeterAngle, 0, 180);
-        speedmeterArrowImage.rectTransform.rotation =Quaternion.Euler(Vector3.forward * -speedmeterAngleCampled);
+
+        if(speedmeterArrowImage!=null)
+        {
+            speedmeterArrowImage.rectTransform.rotation = Quaternion.Euler(Vector3.forward * -speedmeterAngleCampled);
+        }
+        
         StartCoroutine(ShowSpeed());
     }
     private void Move()
@@ -292,11 +384,11 @@ public class KartController : MonoBehaviour
     {
         foreach (wheel _wheels in wheels)
         {
-            if(_wheels.axel==Axel.front)
+            if (_wheels.axel == Axel.front)
             {
                 float _steerAngle = xInput * turnSensitivity * maxSteerAngle;
                 _wheels.wheelCollider.steerAngle = Mathf.Lerp(_wheels.wheelCollider.steerAngle, _steerAngle, 0.5f);
-            }       
+            }
         }
     }
     void AnimateWheels()

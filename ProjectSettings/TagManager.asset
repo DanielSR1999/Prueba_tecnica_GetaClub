@@ -11,6 +11,10 @@ TagManager:
   - Jump
   - randomPowerUp
   - SoundsController
+  - Floor
+  - Track
+  - Environment
+  - Obstacle
   layers:
   - Default
   - TransparentFX

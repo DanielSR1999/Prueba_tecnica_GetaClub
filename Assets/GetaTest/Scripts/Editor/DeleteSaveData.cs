@@ -14,10 +14,10 @@ public class DeleteSaveData : MonoBehaviour
     [MenuItem("GetaTest/Reload Kar Configuration")]
     static void DeleteConfig()
     {
-        KarSelection karSelection = GameObject.Find("Customization").GetComponent<KarSelection>();
+        GameObject karSelection = GameObject.Find("CustomizationController");
         if(karSelection!=null)
         {
-            karSelection.ReloadKarCustom();
+            karSelection.GetComponent<KarSelection>().ReloadKarCustom();
         }
     }
 }

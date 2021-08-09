@@ -123,6 +123,93 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &67753958
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 67753960}
+  - component: {fileID: 67753959}
+  m_Layer: 0
+  m_Name: CustomizationController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &67753959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67753958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4c929cda6957e4458747ba6ea29f1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerSelector:
+  - {fileID: 21300000, guid: e5497d34360cd1a41bbef2d1b46022e0, type: 3}
+  - {fileID: 21300000, guid: ad8d38de0fb4b3344b449578fc344465, type: 3}
+  - {fileID: 21300000, guid: dc0ffdac916ba984592c51d819edd2cb, type: 3}
+  - {fileID: 21300000, guid: 7eb9abb5e19efc641aee954ea8d7b32e, type: 3}
+  wheelFrontSelector:
+  - {fileID: 21300000, guid: 3e724b2e101ca18408fbadff348a8d0c, type: 3}
+  - {fileID: 21300000, guid: 63487ecef0ebfa4429621b89ad3652a0, type: 3}
+  - {fileID: 21300000, guid: 966797120bf8d5541a6b98d80e032b59, type: 3}
+  - {fileID: 21300000, guid: a005c540fa8a09e43bce50094b41740d, type: 3}
+  wheelRearSelector:
+  - {fileID: 21300000, guid: 3e724b2e101ca18408fbadff348a8d0c, type: 3}
+  - {fileID: 21300000, guid: 63487ecef0ebfa4429621b89ad3652a0, type: 3}
+  - {fileID: 21300000, guid: 966797120bf8d5541a6b98d80e032b59, type: 3}
+  - {fileID: 21300000, guid: a005c540fa8a09e43bce50094b41740d, type: 3}
+  carSelector:
+  - {fileID: 21300000, guid: 90d62e92efce758499e2064d984289f0, type: 3}
+  - {fileID: 21300000, guid: e2ca6a5d55605bd428ca9aa64df0f0c3, type: 3}
+  - {fileID: 21300000, guid: 2543210502809ff4e8a274368dcef3e8, type: 3}
+  - {fileID: 21300000, guid: 90eaf8f3d407b994e8944ecb8fdf8733, type: 3}
+  playerMaterial:
+  - {fileID: 2100000, guid: ebcb5a8dc005ea64898b09733cd7ac84, type: 2}
+  - {fileID: 2100000, guid: 78a2ecaa2b66d91458415ece9802f53e, type: 2}
+  - {fileID: 2100000, guid: df9ca142dc7bf0342b53ed359d7c4fd8, type: 2}
+  - {fileID: 2100000, guid: f3731fe9cd684744ca951ab1616aa12a, type: 2}
+  wheelsFrontMaterial:
+  - {fileID: 2100000, guid: ebcb5a8dc005ea64898b09733cd7ac84, type: 2}
+  - {fileID: 2100000, guid: 78a2ecaa2b66d91458415ece9802f53e, type: 2}
+  - {fileID: 2100000, guid: df9ca142dc7bf0342b53ed359d7c4fd8, type: 2}
+  - {fileID: 2100000, guid: f3731fe9cd684744ca951ab1616aa12a, type: 2}
+  wheelsRearMaterial:
+  - {fileID: 2100000, guid: ebcb5a8dc005ea64898b09733cd7ac84, type: 2}
+  - {fileID: 2100000, guid: 78a2ecaa2b66d91458415ece9802f53e, type: 2}
+  - {fileID: 2100000, guid: df9ca142dc7bf0342b53ed359d7c4fd8, type: 2}
+  - {fileID: 2100000, guid: f3731fe9cd684744ca951ab1616aa12a, type: 2}
+  carMaterial:
+  - {fileID: 2100000, guid: ebcb5a8dc005ea64898b09733cd7ac84, type: 2}
+  - {fileID: 2100000, guid: 78a2ecaa2b66d91458415ece9802f53e, type: 2}
+  - {fileID: 2100000, guid: df9ca142dc7bf0342b53ed359d7c4fd8, type: 2}
+  - {fileID: 2100000, guid: f3731fe9cd684744ca951ab1616aa12a, type: 2}
+  playerAvatarImage: {fileID: 0}
+  wheelsFrontImage: {fileID: 0}
+  wheelsRearImage: {fileID: 0}
+  carImage: {fileID: 0}
+--- !u!4 &67753960
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67753958}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 558.448, y: 308.26672, z: -0.2633772}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &525434344
 GameObject:
   m_ObjectHideFlags: 0

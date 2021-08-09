@@ -11,6 +11,7 @@ public class LoadScenesFunctions : MonoBehaviour
     }
     public void LoadScene(int _sceneIndex)
     {
+        Time.timeScale = 1;
         ScenesController.LoadScene(_sceneIndex);
     }
 }

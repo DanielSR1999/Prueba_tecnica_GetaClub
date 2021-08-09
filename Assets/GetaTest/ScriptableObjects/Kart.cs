@@ -6,10 +6,10 @@ using UnityEngine.UI;
 [CreateAssetMenu(fileName ="Kart",menuName ="Kart")]
 public class Kart : ScriptableObject
 {
-    public int currentPlayerColorSelected = 0;
-    public int currentFrontWheelColorSelected = 0;
-    public int currentRearWheelColorSelected = 0;
-    public int currentCarColorSelected = 0;
+    [HideInInspector] public int currentPlayerColorSelected = 0;
+    [HideInInspector] public int currentFrontWheelColorSelected = 0;
+    [HideInInspector] public int currentRearWheelColorSelected = 0;
+    [HideInInspector] public int currentCarColorSelected = 0;
 
     [Header("Materials")]
     public Material playerMaterial;
