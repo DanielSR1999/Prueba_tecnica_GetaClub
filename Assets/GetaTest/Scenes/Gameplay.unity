@@ -610,6 +610,7 @@ MonoBehaviour:
   winText: "\xA1Has ganado!"
   lossText: "\xA1Has perdido!"
   timeSlider: {fileID: 356857043}
+  kartController: {fileID: 1693775500}
 --- !u!4 &211007303
 Transform:
   m_ObjectHideFlags: 0
@@ -3317,6 +3318,17 @@ RectTransform:
   m_AnchoredPosition: {x: -135.457, y: -49.98}
   m_SizeDelta: {x: 214.894, y: 60.759}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1693775500 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1441366647, guid: d4fb6f2a3215a6143aae5fb810bd7e91, type: 3}
+  m_PrefabInstance: {fileID: 2062747148183763217}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 647a810370987e34cb3758fa5d286b1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1706253822
 GameObject:
   m_ObjectHideFlags: 0
@@ -3544,6 +3556,7 @@ MonoBehaviour:
   wheelsFrontImage: {fileID: 0}
   wheelsRearImage: {fileID: 0}
   carImage: {fileID: 0}
+  kars: []
   indexScene: 0
 --- !u!4 &1717646060
 Transform:
@@ -7542,6 +7555,26 @@ PrefabInstance:
       propertyPath: timer
       value: 
       objectReference: {fileID: 211007302}
+    - target: {fileID: 851354504212701314, guid: d4fb6f2a3215a6143aae5fb810bd7e91, type: 3}
+      propertyPath: kartsCustom.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 851354504212701314, guid: d4fb6f2a3215a6143aae5fb810bd7e91, type: 3}
+      propertyPath: kartsCustom.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d12a819a18f1d0448e35d04ad627084, type: 2}
+    - target: {fileID: 851354504212701314, guid: d4fb6f2a3215a6143aae5fb810bd7e91, type: 3}
+      propertyPath: kartsCustom.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5021fa72fdc3fed4393501ed172a50f6, type: 2}
+    - target: {fileID: 851354504212701314, guid: d4fb6f2a3215a6143aae5fb810bd7e91, type: 3}
+      propertyPath: kartsCustom.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 96d1f3f7dd5eb88409fecb2a5fa3d447, type: 2}
+    - target: {fileID: 851354504212701314, guid: d4fb6f2a3215a6143aae5fb810bd7e91, type: 3}
+      propertyPath: kartsCustom.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 30534fc7382843648bb4eaa8a2bcd600, type: 2}
     - target: {fileID: 851354504212701315, guid: d4fb6f2a3215a6143aae5fb810bd7e91, type: 3}
       propertyPath: checkpoints.Array.data[0]
       value: 

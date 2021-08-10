@@ -6,7 +6,7 @@ using UnityEditor;
 
 public class LoadCharacter : MonoBehaviour
 {
-    Kart kartCustom;
+    [SerializeField] Kart[] kartsCustom;
     [Header("MeshRenderers")]
     public SkinnedMeshRenderer characterRenderer;
     public MeshRenderer[] frontWheelsRenderer;
@@ -14,17 +14,21 @@ public class LoadCharacter : MonoBehaviour
     public SkinnedMeshRenderer carRenderer;
     private void Start()
     {
-        kartCustom = Resources.Load<Kart>("Kart");
-        characterRenderer.material = kartCustom.playerMaterial;
-        carRenderer.material = kartCustom.carMaterial;
+        int playerMaterialSelection = PlayerPrefs.GetInt(KarSelection.playerSelectionID);
+        int carMaterialSelection = PlayerPrefs.GetInt(KarSelection.CarSelectionID);
+        int frontWheelSelection = PlayerPrefs.GetInt(KarSelection.FrontWheelSelectionID);
+        int rearWheelSelection = PlayerPrefs.GetInt(KarSelection.RearWHeelSelectionID);
+
+        characterRenderer.material = kartsCustom[playerMaterialSelection].playerMaterial;
+        carRenderer.material = kartsCustom[carMaterialSelection].carMaterial;
 
         foreach(MeshRenderer frontWheels in frontWheelsRenderer)
         {
-            frontWheels.material = kartCustom.wheelsFrontMaterial;
+            frontWheels.material = kartsCustom[frontWheelSelection].wheelsFrontMaterial;
         }
         foreach (MeshRenderer rearWheels in rearWheelsRenderer)
         {
-            rearWheels.material = kartCustom.wheelsRearMaterial;
+            rearWheels.material = kartsCustom[rearWheelSelection].wheelsRearMaterial;
         }
 
     }

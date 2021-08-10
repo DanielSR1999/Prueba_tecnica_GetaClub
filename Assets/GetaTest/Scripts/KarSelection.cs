@@ -29,97 +29,73 @@ public class KarSelection : MonoBehaviour
     int currentRearWheelSelection = 0;
     int currentCarColorSelection = 0;
 
-    Kart kar;
+    [Header("PlayerPrefsIDs")]
+    public static string playerSelectionID = "playerColor";
+    public static string FrontWheelSelectionID = "frontWheelColor";
+    public static string RearWHeelSelectionID = "rearWheelColor";
+    public static string CarSelectionID = "carColor";
+
+    [Space(5)] [SerializeField] Kart[] kars;
     public int indexScene;
     Scene myScene;
     private void Start()
     {
-        
-        kar = Resources.Load<Kart>("Kart");
-        if(kar==null)
-        {
-            kar = AssetDatabase.LoadAssetAtPath<Kart>("Assets/Resources/Kart.asset");
-        }
         myScene = SceneManager.GetActiveScene();
-        LoadInfo();
+
+        int playerSelection = PlayerPrefs.GetInt(playerSelectionID, 0);
+        int FrontWheelSelection = PlayerPrefs.GetInt(FrontWheelSelectionID, 0);
+        int RearWHeelSelection = PlayerPrefs.GetInt(RearWHeelSelectionID, 0);
+        int CarSelection = PlayerPrefs.GetInt(CarSelectionID, 0);
+
+        currentPlayerSelection = playerSelection;
+        currentFrontWheelSelection = FrontWheelSelection;
+        currentRearWheelSelection = RearWHeelSelection;
+        currentCarColorSelection = CarSelection;
+
+        LoadInfo(playerSelection, FrontWheelSelection, RearWHeelSelection, CarSelection);
     }
     
-    public void ReloadKarCustom()
+    void LoadInfo(int player,int FrontWheel,int RearWheel, int car)
     {
-        kar = Resources.Load<Kart>("Kart");
-        if (kar == null)
+        if (myScene.name == ("MainMenu"))
         {
-            kar = AssetDatabase.LoadAssetAtPath<Kart>("Assets/Resources/Kart.asset");
+            playerAvatarImage.sprite = kars[player].playerColorImage;
+            wheelsFrontImage.sprite = kars[FrontWheel].wheelFrontImage;
+            wheelsRearImage.sprite = kars[RearWheel].wheelRearImage;
+            carImage.sprite = kars[car].carImage;
         }
-        kar.currentPlayerColorSelected = 0;
-        kar.currentFrontWheelColorSelected = 0;
-        kar.currentRearWheelColorSelected = 0;
-        kar.currentCarColorSelected = 0;
 
-        kar.playerMaterial = playerMaterial[0];
-        kar.wheelsFrontMaterial = wheelsFrontMaterial[0];
-        kar.wheelsRearMaterial = wheelsRearMaterial[0];
-        kar.carMaterial = carMaterial[0];
-
-        kar.playerColorImage = playerSelector[0];
-        kar.wheelFrontImage = wheelFrontSelector[0];
-        kar.wheelRearImage = wheelRearSelector[0];
-        kar.carImage = carSelector[0];
-    }
-
-    
-    void LoadInfo()
-    {
-        currentPlayerSelection = kar.currentPlayerColorSelected;
-        currentFrontWheelSelection = kar.currentFrontWheelColorSelected;
-        currentRearWheelSelection = kar.currentRearWheelColorSelected;
-        currentCarColorSelection = kar.currentCarColorSelected;
-
-        if(myScene.name==("MainMenu"))
-        {
-            playerAvatarImage.sprite = kar.playerColorImage;
-            wheelsFrontImage.sprite = kar.wheelFrontImage;
-            wheelsRearImage.sprite = kar.wheelRearImage;
-            carImage.sprite = kar.carImage;
-        }
-        
     }
     void SetPlayerColor()
     {
         playerAvatarImage.sprite = playerSelector[currentPlayerSelection];
-        kar.playerColorImage = playerSelector[currentPlayerSelection];
-        kar.playerMaterial = playerMaterial[currentPlayerSelection];
+        PlayerPrefs.SetInt(playerSelectionID, currentPlayerSelection);
     }
     void SetFrontWheel()
     {
         wheelsFrontImage.sprite = wheelFrontSelector[currentFrontWheelSelection];
-        kar.wheelFrontImage = wheelFrontSelector[currentFrontWheelSelection];
-        kar.wheelsFrontMaterial = wheelsFrontMaterial[currentFrontWheelSelection];
+        PlayerPrefs.SetInt(FrontWheelSelectionID, currentFrontWheelSelection);
     }
     void SetRearWheel()
     {
         wheelsRearImage.sprite = wheelRearSelector[currentRearWheelSelection];
-        kar.wheelRearImage = wheelRearSelector[currentRearWheelSelection];
-        kar.wheelsRearMaterial = wheelsRearMaterial[currentRearWheelSelection];
+        PlayerPrefs.SetInt(RearWHeelSelectionID, currentRearWheelSelection);
     }
     void SetCarColor()
     {
         carImage.sprite = carSelector[currentCarColorSelection];
-        kar.carImage = carSelector[currentCarColorSelection];
-        kar.carMaterial = carMaterial[currentCarColorSelection];
+        PlayerPrefs.SetInt(CarSelectionID, currentCarColorSelection);
     }
     public void SelectNextPlayerColor()
     {
         if(currentPlayerSelection<playerSelector.Count-1)
         {
             currentPlayerSelection++;
-            kar.currentPlayerColorSelected = currentPlayerSelection;
             SetPlayerColor();
         }
         else
         {
             currentPlayerSelection = 0;
-            kar.currentPlayerColorSelected = currentPlayerSelection;
             SetPlayerColor();
         }
     }
@@ -128,13 +104,11 @@ public class KarSelection : MonoBehaviour
         if (currentPlayerSelection > 0)
         {
             currentPlayerSelection--;
-            kar.currentPlayerColorSelected = currentPlayerSelection;
             SetPlayerColor();
         }
         else
         {
             currentPlayerSelection = playerSelector.Count - 1;
-            kar.currentPlayerColorSelected = currentPlayerSelection;
             SetPlayerColor();
         }
     }
@@ -143,13 +117,11 @@ public class KarSelection : MonoBehaviour
         if (currentFrontWheelSelection < wheelFrontSelector.Count - 1)
         {
             currentFrontWheelSelection++;
-            kar.currentFrontWheelColorSelected = currentFrontWheelSelection;
             SetFrontWheel();
         }
         else
         {
             currentFrontWheelSelection = 0;
-            kar.currentFrontWheelColorSelected = currentFrontWheelSelection;
             SetFrontWheel();
         }
     }
@@ -158,13 +130,11 @@ public class KarSelection : MonoBehaviour
         if (currentFrontWheelSelection > 0)
         {
             currentFrontWheelSelection--;
-            kar.currentFrontWheelColorSelected = currentFrontWheelSelection;
             SetFrontWheel();
         }
         else
         {
             currentFrontWheelSelection = wheelFrontSelector.Count - 1;
-            kar.currentFrontWheelColorSelected = currentFrontWheelSelection;
             SetFrontWheel();
         }
     }
@@ -173,13 +143,11 @@ public class KarSelection : MonoBehaviour
         if (currentRearWheelSelection < wheelRearSelector.Count - 1)
         {
             currentRearWheelSelection++;
-            kar.currentRearWheelColorSelected = currentRearWheelSelection;
             SetRearWheel();
         }
         else
         {
             currentRearWheelSelection = 0;
-            kar.currentRearWheelColorSelected = currentRearWheelSelection;
             SetRearWheel();
         }
     }
@@ -188,13 +156,11 @@ public class KarSelection : MonoBehaviour
         if (currentRearWheelSelection > 0)
         {
             currentRearWheelSelection--;
-            kar.currentRearWheelColorSelected = currentRearWheelSelection;
             SetRearWheel();
         }
         else
         {
             currentRearWheelSelection = wheelRearSelector.Count - 1;
-            kar.currentRearWheelColorSelected = currentRearWheelSelection;
             SetRearWheel();
         }
     }
@@ -203,13 +169,11 @@ public class KarSelection : MonoBehaviour
         if (currentCarColorSelection < carSelector.Count - 1)
         {
             currentCarColorSelection++;
-            kar.currentCarColorSelected = currentCarColorSelection;
             SetCarColor();
         }
         else
         {
             currentCarColorSelection = 0;
-            kar.currentCarColorSelected = currentCarColorSelection;
             SetCarColor();
         }
     }
@@ -218,13 +182,11 @@ public class KarSelection : MonoBehaviour
         if (currentCarColorSelection > 0)
         {
             currentCarColorSelection--;
-            kar.currentCarColorSelected = currentCarColorSelection;
             SetCarColor();
         }
         else
         {
             currentCarColorSelection = carSelector.Count - 1;
-            kar.currentCarColorSelected = currentCarColorSelection;
             SetCarColor();
         }
     }

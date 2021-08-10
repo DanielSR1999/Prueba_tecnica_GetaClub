@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efdbb653016920e4a8a51bce10e2ce32, type: 3}
+  m_Name: RedCar
+  m_EditorClassIdentifier: 
+  currentPlayerColorSelected: 0
+  currentFrontWheelColorSelected: 0
+  currentRearWheelColorSelected: 0
+  currentCarColorSelected: 0
+  playerMaterial: {fileID: 2100000, guid: 78a2ecaa2b66d91458415ece9802f53e, type: 2}
+  wheelsFrontMaterial: {fileID: 2100000, guid: 78a2ecaa2b66d91458415ece9802f53e, type: 2}
+  wheelsRearMaterial: {fileID: 2100000, guid: 78a2ecaa2b66d91458415ece9802f53e, type: 2}
+  carMaterial: {fileID: 2100000, guid: 78a2ecaa2b66d91458415ece9802f53e, type: 2}
+  playerColorImage: {fileID: 21300000, guid: ad8d38de0fb4b3344b449578fc344465, type: 3}
+  wheelFrontImage: {fileID: 21300000, guid: 63487ecef0ebfa4429621b89ad3652a0, type: 3}
+  wheelRearImage: {fileID: 21300000, guid: 63487ecef0ebfa4429621b89ad3652a0, type: 3}
+  carImage: {fileID: 21300000, guid: e2ca6a5d55605bd428ca9aa64df0f0c3, type: 3}

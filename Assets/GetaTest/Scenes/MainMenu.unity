@@ -3940,6 +3940,15 @@ MonoBehaviour:
   wheelsFrontImage: {fileID: 1765786066}
   wheelsRearImage: {fileID: 2089837612}
   carImage: {fileID: 859216532}
+  playerSelectionID: playerColor
+  FrontWheelSelectionID: frontWheelColor
+  RearWHeelSelectionID: rearWheelColor
+  CarSelectionID: carColor
+  kars:
+  - {fileID: 11400000, guid: 7d12a819a18f1d0448e35d04ad627084, type: 2}
+  - {fileID: 11400000, guid: 5021fa72fdc3fed4393501ed172a50f6, type: 2}
+  - {fileID: 11400000, guid: 96d1f3f7dd5eb88409fecb2a5fa3d447, type: 2}
+  - {fileID: 11400000, guid: 30534fc7382843648bb4eaa8a2bcd600, type: 2}
   indexScene: 0
 --- !u!4 &1842934307
 Transform:
