@@ -98,6 +98,11 @@ public class KartController : MonoBehaviour
         StartCoroutine(ControlMotorCarSound());
         
     }
+
+    public void StopMovement()
+    {
+        StopAllCoroutines();
+    }
     IEnumerator ControlMotorCarSound()
     {
         yield return new WaitForSeconds(0.25f);
@@ -408,8 +413,6 @@ public class KartController : MonoBehaviour
     IEnumerator moveToMaxSpeed()
     {
         moving = true;
-        timer.CallTimer();
-        StartCoroutine(ShowSpeed());
         float lerpTime = 2;
         float currentLerpTime = 0;
 

@@ -56,8 +56,7 @@ public class Timer : MonoBehaviour
         StopAllCoroutines();
         gameCanvas.enabled = false;
         resultUI.enabled = true;
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        player.GetComponent<KartController>().DisableMovement();
+        kartController.GetComponent<KartController>().DisableMovement();
     }
     public void Win()
     {
