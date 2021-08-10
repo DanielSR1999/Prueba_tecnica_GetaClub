@@ -5,7 +5,7 @@ using UnityEditor;
 
 public class DeleteSaveData : MonoBehaviour
 {
-    [MenuItem("GetaTest/Erase stats")]
+    [MenuItem("GetaTest/Erase PlayerPrefs")]
     static void DeleteData()
     {
         PlayerPrefs.DeleteAll();

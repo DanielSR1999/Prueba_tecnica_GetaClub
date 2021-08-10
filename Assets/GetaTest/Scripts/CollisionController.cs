@@ -31,7 +31,6 @@ public class CollisionController : MonoBehaviour
     [SerializeField] Text recordText;
     [SerializeField] string newRecordMessage = "¡Felicidades! Has alcanzado un nuevo record";
     [SerializeField] string noRecordMessage = "¡Lo siento! No has podido superar tu record";
-    public static string recordRailsModeID = "recordRails";
     [SerializeField] SoundsController soundsController;
     bool gameFinished = false;
     bool coinCollision = false;
@@ -60,7 +59,10 @@ public class CollisionController : MonoBehaviour
                 results.enabled = true;
                 soundsController.backgroundMusic.pitch = soundsController.neutralPitch;
 
-                int currentRecord = PlayerPrefs.GetInt(recordRailsModeID, 0);
+                int currentRecord = PlayerPrefs.GetInt(SaveData.recordRailsModeID, 0);
+
+                int games = PlayerPrefs.GetInt(SaveData.railsGamesPlayedID, 0);
+                PlayerPrefs.SetInt(SaveData.railsGamesPlayedID, games += 1);
 
                 if (scoreValue > currentRecord)
                 {
@@ -68,13 +70,13 @@ public class CollisionController : MonoBehaviour
                     recordText.text = "Nuevo record: " + scoreValue.ToString();
                     soundsController.PlayWin();
                     Debug.Log("Nuevo record");
-                    PlayerPrefs.SetInt(recordRailsModeID, scoreValue);
+                    PlayerPrefs.SetInt(SaveData.recordRailsModeID, scoreValue);
                     enabled = false;
                 }
                 else if (scoreValue <= currentRecord)
                 {
                     resultsUI.text = noRecordMessage;
-                    recordText.text = "Record: " +PlayerPrefs.GetInt(recordRailsModeID,0);
+                    recordText.text = "Record: " +PlayerPrefs.GetInt(SaveData.recordRailsModeID,0);
                     soundsController.PlayLoss();
                     Debug.Log("perdi");
                     enabled = false;
