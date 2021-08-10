@@ -23,6 +23,7 @@ public class KartController : MonoBehaviour
 {
     public enum gameMode { racing, trails}
     public gameMode mode;
+    [SerializeField] Timer timer;
 
     [Header("Rails Controller")]
     public bool keyHit = false;
@@ -33,7 +34,8 @@ public class KartController : MonoBehaviour
     public Transform centerRail;
     public Transform leftRail;
     public Transform rightRail;
-
+    public bool moving = false;
+    public float speedMovement;
 
     float yInput, xInput;
     public List<wheel> wheels;
@@ -56,13 +58,12 @@ public class KartController : MonoBehaviour
     public Image speedmeterArrowImage;
     public float smoothArrow;
 
-    [Header("Turbo")][SerializeField]
-    float turboDuration;[SerializeField]
-    bool turboEnable = false;
-    [Range(1, 5f)][SerializeField]
-    float speedIncrement;
-    float velocityMultiplier = 1f;[SerializeField]
-    ParticleSystem turboParticle;
+    [Header("Turbo")]
+    [SerializeField] float turboDuration;
+    [SerializeField]  bool turboEnable = false;
+    [Range(1, 5f)][SerializeField] float speedIncrement;
+    float velocityMultiplier = 1f;
+    [SerializeField] ParticleSystem turboParticle;
 
     [Header("Drift")]
     [Range(0.5f,5f)]
@@ -121,6 +122,7 @@ public class KartController : MonoBehaviour
         {
             if(canJump)
             {
+                _rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
                 _rigidbody.AddForce(Vector3.up * jumpForce * _rigidbody.mass);
                 canJump = false;
             }
@@ -347,38 +349,86 @@ public class KartController : MonoBehaviour
     }
     private void Move()
     {
-        foreach (wheel _wheels in wheels)
+        if(mode==gameMode.racing)
         {
-            if(speed<maxSpeed)
+            foreach (wheel _wheels in wheels)
             {
-                _wheels.wheelCollider.motorTorque = yInput * maxAceleration * velocityMultiplier * 500 * Time.deltaTime;
+                if (speed < maxSpeed)
+                {
+                    _wheels.wheelCollider.motorTorque = yInput * maxAceleration * velocityMultiplier * 500 * Time.deltaTime;
+                }
+                else
+                {
+                    _wheels.wheelCollider.motorTorque = 0;
+                }
+            }
+            if (Input.GetAxis("Vertical") == 0)
+            {
+                foreach (wheel _wheels in wheels)
+                {
+                    if (_wheels.axel == Axel.rear)
+                    {
+                        _wheels.wheelCollider.brakeTorque = desAceleration;
+                    }
+                }
             }
             else
             {
-                _wheels.wheelCollider.motorTorque = 0;
+                foreach (wheel _wheels in wheels)
+                {
+                    if (_wheels.axel == Axel.rear)
+                    {
+                        _wheels.wheelCollider.brakeTorque = 0;
+                    }
+                }
             }
+        }
+        else if(mode==gameMode.trails)
+        {
+            if(yInput>0)
+            {
+                if (!moving)
+                {
+                    StartCoroutine(moveToMaxSpeed());   
+                }
+                
+            }
+        }
+    }
+   
+    IEnumerator movementRail()
+    {
+        while(moving)
+        {
+            _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, _rigidbody.velocity.y, speedMovement);
+            speed = maxSpeed;
+            yield return null;
+        }
+    }
+    IEnumerator moveToMaxSpeed()
+    {
+        moving = true;
+        timer.CallTimer();
+        StartCoroutine(ShowSpeed());
+        float lerpTime = 2;
+        float currentLerpTime = 0;
 
-        }
-        if(Input.GetAxis("Vertical")==0)
+        bool _keyHit = true;
+
+        while(_keyHit)
         {
-            foreach (wheel _wheels in wheels)
+            currentLerpTime += Time.deltaTime;
+            if(currentLerpTime>=lerpTime)
             {
-                if (_wheels.axel == Axel.rear)
-                {
-                    _wheels.wheelCollider.brakeTorque = desAceleration;
-                }
+                _keyHit = false;
+                currentLerpTime = 0;
+                StartCoroutine(movementRail());
             }
+            float smooth = currentLerpTime / lerpTime;
+            _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, _rigidbody.velocity.y, Mathf.Lerp(0, speedMovement,smooth));
+            yield return null;
         }
-        else
-        {
-            foreach (wheel _wheels in wheels)
-            {
-                if (_wheels.axel == Axel.rear)
-                {
-                    _wheels.wheelCollider.brakeTorque = 0;
-                }
-            }
-        }
+        
     }
     private void Turn()
     {

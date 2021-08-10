@@ -31,7 +31,7 @@ public class Spawner : MonoBehaviour
             lastEnvironmentZPosition += spaceIntoEnvironments;
             objectToMove.transform.position = Vector3.forward * lastEnvironmentZPosition;
         }
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(0.25f);
         collider.enabled = true;
         
     }

@@ -15,13 +15,23 @@ public class Timer : MonoBehaviour
     [SerializeField] string winText;
     [SerializeField] string lossText;
     [SerializeField] Slider timeSlider;
+    [SerializeField] KartController kartController;
     private void Start()
     {
         secondsRemaining = initialTime;
-        StartCoroutine(_Timer());
         timeSlider.maxValue = initialTime;
-    }
 
+        if (kartController.mode == KartController.gameMode.racing)
+        {
+            StartCoroutine(_Timer());
+        }
+        else
+            return;
+    }
+    public void CallTimer()
+    {
+        StartCoroutine(_Timer());
+    }
     IEnumerator _Timer()
     {
         while(secondsRemaining>0)
@@ -38,9 +48,17 @@ public class Timer : MonoBehaviour
         player.GetComponent<KartController>().SetGameData(false, 0);
         resultText.text = lossText;
         soundsController.PlayLoss();
-        Time.timeScale = 0;
+        
     }
 
+    public void StopTimer()
+    {
+        StopAllCoroutines();
+        gameCanvas.enabled = false;
+        resultUI.enabled = true;
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        player.GetComponent<KartController>().DisableMovement();
+    }
     public void Win()
     {
         gameCanvas.enabled = false;
